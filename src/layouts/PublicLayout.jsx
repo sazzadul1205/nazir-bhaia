@@ -6,6 +6,7 @@ import { Outlet } from "react-router-dom";
 // Shared Components
 import TopBar from "../Shared/TopBar/TopBar";
 import Navbar from "../Shared/Navbar/Navbar";
+import Footer from "../Shared/Footer/Footer";
 
 const PublicLayout = () => {
   return (
@@ -20,6 +21,8 @@ const PublicLayout = () => {
       <main className="grow py-4 md:py-6">
         <Outlet />
       </main>
+
+      <Footer />
     </div>
   );
 };
