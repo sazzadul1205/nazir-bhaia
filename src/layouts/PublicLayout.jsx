@@ -2,8 +2,6 @@
 import { Outlet } from "react-router-dom";
 import TopBar from "../Shared/TopBar/TopBar";
 import Navbar from "../Shared/Navbar/Navbar";
-import Footer from "../Shared/Footer/Footer";
-import CartSidebar from "../components/Cart/CartSidebar";
 
 const PublicLayout = () => {
   return (
@@ -13,8 +11,6 @@ const PublicLayout = () => {
       <main className="flex-1">
         <Outlet />
       </main>
-      <Footer />
-      <CartSidebar />
     </div>
   );
 };
