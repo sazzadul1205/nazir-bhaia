@@ -31,7 +31,7 @@ const CartSidebar = () => {
       {/* Floating Cart Button - Bottom Right */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-40 flex items-center justify-center w-14 h-14 bg-amber-600 hover:bg-amber-700 text-white rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-110 active:scale-95 group"
+        className="hidden fixed bottom-6 right-6 z-40 md:flex items-center justify-center w-14 h-14 bg-amber-600 hover:bg-amber-700 text-white rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-110 active:scale-95 group"
         aria-label="Open cart"
       >
         <FaShoppingCart className="h-6 w-6 group-hover:scale-110 transition-transform" />
