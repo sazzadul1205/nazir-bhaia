@@ -16,7 +16,10 @@ const PublicLayout = () => {
       {/* Navbar */}
       <Navbar />
 
-      <Outlet />
+      {/* main content */}
+      <main className="grow py-4 md:py-6">
+        <Outlet />
+      </main>
     </div>
   );
 };
