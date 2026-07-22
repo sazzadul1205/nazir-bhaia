@@ -1,28 +1,20 @@
 // src/layouts/PublicLayout.jsx
-
-// React
 import { Outlet } from "react-router-dom";
-
-// Shared Components
 import TopBar from "../Shared/TopBar/TopBar";
 import Navbar from "../Shared/Navbar/Navbar";
 import Footer from "../Shared/Footer/Footer";
+import CartSidebar from "../components/Cart/CartSidebar";
 
 const PublicLayout = () => {
   return (
-    <div className="bg-white min-h-screen">
-      {/* Top Bar */}
+    <div className="bg-white min-h-screen flex flex-col">
       <TopBar />
-
-      {/* Navbar */}
       <Navbar />
-
-      {/* main content */}
-      <main className="grow py-4 md:py-6">
+      <main className="flex-1">
         <Outlet />
       </main>
-
       <Footer />
+      <CartSidebar />
     </div>
   );
 };

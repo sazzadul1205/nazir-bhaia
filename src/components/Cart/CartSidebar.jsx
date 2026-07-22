@@ -1,9 +1,11 @@
 // src/components/Cart/CartSidebar.jsx
 import { useState, useEffect } from "react";
-import { FaShoppingCart, FaTimes } from "react-icons/fa";
+import { FaShoppingCart, FaTimes, FaCommentDots } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const CartSidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   // Listen for custom event to open cart
   useEffect(() => {
@@ -26,12 +28,16 @@ const CartSidebar = () => {
     };
   }, [isOpen]);
 
+  const handleChatClick = () => {
+    navigate("/chat");
+  };
+
   return (
     <>
       {/* Floating Cart Button - Bottom Right */}
       <button
         onClick={() => setIsOpen(true)}
-        className="hidden fixed bottom-6 right-6 z-40 md:flex items-center justify-center w-14 h-14 bg-amber-600 hover:bg-amber-700 text-white rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-110 active:scale-95 group"
+        className="fixed bottom-6 right-6 z-40 flex items-center justify-center w-14 h-14 bg-amber-600 hover:bg-amber-700 text-white rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-110 active:scale-95 group"
         aria-label="Open cart"
       >
         <FaShoppingCart className="h-6 w-6 group-hover:scale-110 transition-transform" />
@@ -88,6 +94,20 @@ const CartSidebar = () => {
             className="mt-4 inline-flex items-center gap-2 px-6 py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-full text-sm font-medium transition-colors"
           >
             Continue Shopping
+          </button>
+        </div>
+
+        {/* Chat Button at Bottom of Sidebar */}
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-slate-200 bg-slate-50">
+          <button
+            onClick={handleChatClick}
+            className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-medium transition-colors duration-300 hover:shadow-lg"
+          >
+            <FaCommentDots className="h-5 w-5" />
+            Chat with Us
+            <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full ml-1">
+              Live
+            </span>
           </button>
         </div>
       </div>

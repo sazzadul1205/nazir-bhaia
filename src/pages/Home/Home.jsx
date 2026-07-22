@@ -14,7 +14,6 @@ import {
   FaSnowflake,
 } from "react-icons/fa";
 
-import CartSidebar from "../../components/Cart/CartSidebar";
 import TopSection from "./TopSection/TopSection";
 import BrowseCategories from "./BrowseCategories/BrowseCategories";
 import PlaceYourAd from "./PlaceYourAd/PlaceYourAd";
@@ -379,8 +378,6 @@ const Home = () => {
         ctaText="Get Started"
         visitorCount="10,000+ Happy Customers"
       />
-
-      <CartSidebar />
     </>
   );
 };
