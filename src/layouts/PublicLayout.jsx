@@ -1,14 +1,21 @@
-import { FaPhoneAlt } from "react-icons/fa";
+// src/layouts/PublicLayout.jsx
+
+// React
 import { Outlet } from "react-router-dom";
+
+// Shared Components
+import TopBar from "../Shared/TopBar/TopBar";
+import Navbar from "../Shared/Navbar/Navbar";
 
 const PublicLayout = () => {
   return (
     <div className="bg-white min-h-screen">
-      <div className="bg-green-500 p-2 flex">
-        <div className="bg-white rounded-full" >
-          <FaPhoneAlt className="text-black" />
-        </div>
-      </div>
+      {/* Top Bar */}
+      <TopBar />
+
+      {/* Navbar */}
+      <Navbar />
+
       <Outlet />
     </div>
   );
