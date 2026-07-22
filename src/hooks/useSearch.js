@@ -187,9 +187,11 @@ export const useSearch = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+
   const mobileSearchRef = useRef(null);
   const desktopSearchRef = useRef(null);
   const suggestionsRef = useRef(null);
+
   const navigate = useNavigate();
 
   // ----- FUNCTIONS with useCallback to prevent unnecessary re-renders -----
@@ -204,7 +206,9 @@ export const useSearch = () => {
   const openSearch = useCallback(() => {
     setSearchOpen(true);
     setTimeout(() => {
-      mobileSearchRef.current?.focus();
+      if (mobileSearchRef.current) {
+        mobileSearchRef.current.focus();
+      }
     }, 100);
   }, []);
 
@@ -212,7 +216,9 @@ export const useSearch = () => {
     setSearchQuery("");
     setSearchResults([]);
     setShowSuggestions(false);
-    mobileSearchRef.current?.focus();
+    if (mobileSearchRef.current) {
+      mobileSearchRef.current.focus();
+    }
   }, []);
 
   const handleSearchSubmit = useCallback(
@@ -266,31 +272,21 @@ export const useSearch = () => {
     return () => clearTimeout(delayDebounceFn);
   }, [searchQuery]);
 
-  // Handle click outside suggestions
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        suggestionsRef.current &&
-        !suggestionsRef.current.contains(event.target)
-      ) {
-        setShowSuggestions(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  // Handle escape key - now closeSearch is memoized with useCallback
+  // Handle escape key
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === "Escape") {
-        closeSearch();
-        setShowSuggestions(false);
+        if (searchOpen) {
+          closeSearch();
+        }
+        if (showSuggestions) {
+          setShowSuggestions(false);
+        }
       }
     };
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
-  }, [closeSearch]); // closeSearch is now stable and won't change on every render
+  }, [searchOpen, showSuggestions, closeSearch]);
 
   return {
     // State
@@ -298,6 +294,7 @@ export const useSearch = () => {
     setSearchQuery,
     searchResults,
     showSuggestions,
+    setShowSuggestions,
     searchOpen,
     setSearchOpen,
 

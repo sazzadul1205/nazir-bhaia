@@ -6,10 +6,21 @@ const SearchSuggestions = forwardRef(
   ({ results, query, showSuggestions, onProductClick, onViewAll }, ref) => {
     if (!showSuggestions || results.length === 0 || !query.trim()) return null;
 
+    // Prevent blur from closing when clicking inside suggestions
+    const handleMouseDown = (e) => {
+      e.preventDefault(); 
+    };
+
+    const handleClick = (e) => {
+      e.stopPropagation(); 
+    };
+
     return (
       <div
         ref={ref}
         className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-slate-200 max-h-96 overflow-y-auto z-50"
+        onMouseDown={handleMouseDown}
+        onClick={handleClick}
       >
         <div className="p-2">
           <div className="px-3 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">

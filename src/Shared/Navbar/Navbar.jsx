@@ -1,5 +1,5 @@
 // src/Shared/Navbar/Navbar.jsx
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   FaShoppingCart,
@@ -39,6 +39,9 @@ const Navbar = () => {
   // Use search hook
   const search = useSearch();
 
+  // Create a local ref for the search container
+  const searchContainerLocalRef = useRef(null);
+
   // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
@@ -47,6 +50,51 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Handle click outside the search container
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Check if click is outside the search container
+      if (
+        searchContainerLocalRef.current &&
+        !searchContainerLocalRef.current.contains(event.target)
+      ) {
+        // Close search if it's open
+        if (search.searchOpen) {
+          search.closeSearch();
+        }
+        // Close suggestions if they're open
+        if (search.showSuggestions) {
+          search.setShowSuggestions(false);
+        }
+      }
+    };
+
+    // Use mousedown for better handling
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [search.searchOpen, search.showSuggestions, search.closeSearch, search]);
+
+  // Handle escape key
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === "Escape") {
+        if (search.searchOpen) {
+          search.closeSearch();
+        }
+        if (search.showSuggestions) {
+          search.setShowSuggestions(false);
+        }
+      }
+    };
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [search.searchOpen, search.showSuggestions, search.closeSearch, search]);
 
   // Categories data
   const categories = [
@@ -121,48 +169,52 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Mobile Search - Only visible on mobile */}
-          <div className="md:hidden flex-1 min-w-0">
-            <SearchBar
-              isMobile={true}
-              searchQuery={search.searchQuery}
-              setSearchQuery={search.setSearchQuery}
-              searchResults={search.searchResults}
-              showSuggestions={search.showSuggestions}
-              searchOpen={search.searchOpen}
-              setSearchOpen={search.setSearchOpen}
-              mobileSearchRef={search.mobileSearchRef}
-              desktopSearchRef={search.desktopSearchRef}
-              suggestionsRef={search.suggestionsRef}
-              openSearch={search.openSearch}
-              clearSearch={search.clearSearch}
-              handleSearchSubmit={search.handleSearchSubmit}
-              handleProductClick={search.handleProductClick}
-              handleViewAll={search.handleViewAll}
-              placeholder="Search products..."
-            />
-          </div>
+          {/* Search Container Wrapper - Single ref for both mobile and desktop */}
+          <div
+            ref={searchContainerLocalRef}
+            className="flex-1 flex items-center"
+          >
+            {/* Mobile Search - Only visible on mobile */}
+            <div className="md:hidden flex-1 min-w-0">
+              <SearchBar
+                isMobile={true}
+                searchQuery={search.searchQuery}
+                setSearchQuery={search.setSearchQuery}
+                searchResults={search.searchResults}
+                showSuggestions={search.showSuggestions}
+                setSearchOpen={search.setSearchOpen}
+                mobileSearchRef={search.mobileSearchRef}
+                desktopSearchRef={search.desktopSearchRef}
+                suggestionsRef={search.suggestionsRef}
+                openSearch={search.openSearch}
+                clearSearch={search.clearSearch}
+                handleSearchSubmit={search.handleSearchSubmit}
+                handleProductClick={search.handleProductClick}
+                handleViewAll={search.handleViewAll}
+                placeholder="Search products..."
+              />
+            </div>
 
-          {/* Desktop Search - Only visible on desktop */}
-          <div className="hidden md:flex flex-1 max-w-xl mx-6">
-            <SearchBar
-              isMobile={false}
-              searchQuery={search.searchQuery}
-              setSearchQuery={search.setSearchQuery}
-              searchResults={search.searchResults}
-              showSuggestions={search.showSuggestions}
-              searchOpen={search.searchOpen}
-              setSearchOpen={search.setSearchOpen}
-              mobileSearchRef={search.mobileSearchRef}
-              desktopSearchRef={search.desktopSearchRef}
-              suggestionsRef={search.suggestionsRef}
-              openSearch={search.openSearch}
-              clearSearch={search.clearSearch}
-              handleSearchSubmit={search.handleSearchSubmit}
-              handleProductClick={search.handleProductClick}
-              handleViewAll={search.handleViewAll}
-              placeholder="Search honey, ghee, rice, oil..."
-            />
+            {/* Desktop Search - Only visible on desktop */}
+            <div className="hidden md:flex flex-1 max-w-xl mx-6">
+              <SearchBar
+                isMobile={false}
+                searchQuery={search.searchQuery}
+                setSearchQuery={search.setSearchQuery}
+                searchResults={search.searchResults}
+                showSuggestions={search.showSuggestions}
+                setSearchOpen={search.setSearchOpen}
+                mobileSearchRef={search.mobileSearchRef}
+                desktopSearchRef={search.desktopSearchRef}
+                suggestionsRef={search.suggestionsRef}
+                openSearch={search.openSearch}
+                clearSearch={search.clearSearch}
+                handleSearchSubmit={search.handleSearchSubmit}
+                handleProductClick={search.handleProductClick}
+                handleViewAll={search.handleViewAll}
+                placeholder="Search honey, ghee, rice, oil..."
+              />
+            </div>
           </div>
 
           {/* Actions */}

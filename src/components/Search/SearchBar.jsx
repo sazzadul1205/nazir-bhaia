@@ -21,6 +21,24 @@ const SearchBar = ({
 }) => {
   const inputRef = isMobile ? mobileSearchRef : desktopSearchRef;
 
+  // Handle input blur - but only close if not clicking on suggestions
+  const handleBlur = () => {
+    // Small delay to allow click events on suggestions to fire
+    setTimeout(() => {
+      // Check if the new focus target is inside suggestions
+      const activeElement = document.activeElement;
+      const isSuggestionFocused =
+        suggestionsRef.current &&
+        suggestionsRef.current.contains(activeElement);
+
+      // If focus is not on suggestions, close search
+      if (!isSuggestionFocused) {
+        setSearchOpen(false);
+        // Don't clear query here to allow smooth UX
+      }
+    }, 150);
+  };
+
   return (
     <div className={`relative ${isMobile ? "flex-1 min-w-0" : "w-full"}`}>
       <form
@@ -45,6 +63,7 @@ const SearchBar = ({
                 setSearchOpen(true);
               }
             }}
+            onBlur={handleBlur}
             className={`w-full rounded-full border border-slate-200 bg-slate-50/80 text-slate-800 placeholder:text-slate-400 focus:border-amber-400 focus:ring-2 focus:ring-amber-200/60 outline-none transition-all duration-200 ${
               isMobile
                 ? "px-9 pr-20 py-1.5 text-sm"
