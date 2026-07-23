@@ -24,17 +24,23 @@ import {
   FaStore,
   FaUtensils,
   FaSpa,
+  FaCommentDots,
 } from "react-icons/fa";
 
 // Custom Hooks & Components
 import { useSearch } from "../../hooks/useSearch";
 import SearchBar from "../../components/Search/SearchBar";
+import { useCart } from "../../hooks/useCart";
+import { openCart } from "../../utils/cartHelpers";
 
 const Navbar = () => {
   // States
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+
+  const { getTotalItems } = useCart();
+  const cartCount = getTotalItems();
 
   // Use search hook
   const search = useSearch();
@@ -247,21 +253,19 @@ const Navbar = () => {
               })}
             </div>
 
-            {/* Cart Button */}
             <button
-              onClick={() =>
-                window.dispatchEvent(new CustomEvent("open-side-cart"))
-              }
+              onClick={openCart}
               className="relative inline-flex h-10 w-10 items-center justify-center rounded-full bg-white border border-slate-200 hover:border-amber-300 hover:bg-amber-50/50 transition-all duration-200 shadow-sm hover:shadow-md active:scale-95 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
               title="Open cart"
               aria-label="Shopping cart"
             >
               <FaShoppingCart className="h-5 w-5 text-slate-700" />
-              <span className="absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-emerald-600 text-white text-[10px] font-bold ring-2 ring-white transition-transform duration-300 hover:scale-110">
-                0
-              </span>
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-emerald-600 text-white text-[10px] font-bold ring-2 ring-white transition-transform duration-300 hover:scale-110">
+                  {cartCount > 99 ? "99+" : cartCount}
+                </span>
+              )}
             </button>
-
             {/* Mobile Menu Toggle */}
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -347,6 +351,15 @@ const Navbar = () => {
                   className="flex-1 text-center px-4 py-2.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-700 text-sm font-medium transition-all duration-200"
                 >
                   Contact
+                </Link>
+                {/* Add this */}
+                <Link
+                  to="/chat"
+                  onClick={() => setIsOpen(false)}
+                  className="flex-1 text-center px-4 py-2.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 text-sm font-medium transition-all duration-200"
+                >
+                  <FaCommentDots className="inline h-3 w-3 mr-1" />
+                  Chat
                 </Link>
               </div>
             </div>

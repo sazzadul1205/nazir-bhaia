@@ -24,6 +24,7 @@ import {
 } from "react-icons/fa";
 import { getData } from "../../api/apiService";
 import { formatTaka } from "../../utils/currency";
+import { useCart } from "../../hooks/useCart";
 
 const ProductModal = ({ product, isOpen, onClose }) => {
   const [selectedImage, setSelectedImage] = useState(0);
@@ -36,6 +37,8 @@ const ProductModal = ({ product, isOpen, onClose }) => {
   const imageContainerRef = useRef(null);
   const modalRef = useRef(null);
   const prevIsOpenRef = useRef(isOpen);
+
+  const { addToCart } = useCart();
 
   // Fetch contact and delivery info
   useEffect(() => {
@@ -494,9 +497,10 @@ const ProductModal = ({ product, isOpen, onClose }) => {
 
                 <button
                   className="flex-1 flex items-center justify-center gap-2 bg-amber-600 hover:bg-amber-700 text-white py-2.5 px-6 rounded-lg font-medium transition-colors shadow-lg shadow-amber-200"
-                  onClick={() =>
-                    console.log("Add to cart:", product.id, quantity)
-                  }
+                  onClick={() => {
+                    addToCart(product, quantity);
+                    onClose();
+                  }}
                 >
                   <FaShoppingCart className="h-4 w-4" />
                   Add to Cart - {formatTaka(product.price * quantity)}

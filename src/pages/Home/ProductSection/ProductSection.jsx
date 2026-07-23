@@ -15,6 +15,7 @@ import {
 import ProductModal from "../../../components/ProductModal/ProductModal";
 
 import { formatTaka } from "../../../utils/currency";
+import { useCart } from "../../../hooks/useCart";
 
 const ProductSection = ({
   title,
@@ -111,6 +112,8 @@ const ProductSection = ({
         return null;
     }
   };
+
+  const { addToCart } = useCart();
 
   return (
     <>
@@ -272,7 +275,7 @@ const ProductSection = ({
                         }`}
                         onClick={(e) => {
                           e.stopPropagation();
-                          console.log("Add to cart:", product.id);
+                          addToCart(product, 1);
                         }}
                       >
                         <FaShoppingCart className="h-3 w-3 md:h-3.5 md:w-3.5" />
