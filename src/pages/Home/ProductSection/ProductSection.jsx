@@ -14,6 +14,8 @@ import {
 } from "react-icons/fa";
 import ProductModal from "../../../components/ProductModal/ProductModal";
 
+import { formatTaka } from "../../../utils/currency";
+
 const ProductSection = ({
   title,
   subtitle,
@@ -248,14 +250,14 @@ const ProductSection = ({
                       </div>
                     )}
 
-                    {/* Price */}
+                    {/* Price - Updated to Taka */}
                     <div className="flex items-center gap-2 mb-2">
                       <span className="text-sm md:text-base font-bold text-amber-600">
-                        ${product.price}
+                        {formatTaka(product.price)}
                       </span>
                       {product.originalPrice && (
                         <span className="text-[10px] md:text-xs text-slate-400 line-through">
-                          ${product.originalPrice}
+                          {formatTaka(product.originalPrice)}
                         </span>
                       )}
                     </div>

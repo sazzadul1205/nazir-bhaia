@@ -1,6 +1,7 @@
 // src/components/Search/SearchSuggestions.jsx
 import { forwardRef } from "react";
 import { FaArrowRight } from "react-icons/fa";
+import { formatTaka } from "../../utils/currency";
 
 const SearchSuggestions = forwardRef(
   ({ results, query, showSuggestions, onProductClick, onViewAll }, ref) => {
@@ -8,11 +9,11 @@ const SearchSuggestions = forwardRef(
 
     // Prevent blur from closing when clicking inside suggestions
     const handleMouseDown = (e) => {
-      e.preventDefault(); 
+      e.preventDefault();
     };
 
     const handleClick = (e) => {
-      e.stopPropagation(); 
+      e.stopPropagation();
     };
 
     return (
@@ -47,7 +48,7 @@ const SearchSuggestions = forwardRef(
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-sm font-semibold text-amber-600">
-                  {product.price}
+                  {formatTaka(product.price)}
                 </span>
                 <FaArrowRight className="h-3 w-3 text-slate-300 group-hover:text-amber-500 transition-colors" />
               </div>

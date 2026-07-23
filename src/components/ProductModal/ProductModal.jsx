@@ -23,6 +23,7 @@ import {
   FaBolt,
 } from "react-icons/fa";
 import { getData } from "../../api/apiService";
+import { formatTaka } from "../../utils/currency";
 
 const ProductModal = ({ product, isOpen, onClose }) => {
   const [selectedImage, setSelectedImage] = useState(0);
@@ -167,12 +168,13 @@ const ProductModal = ({ product, isOpen, onClose }) => {
 
   const handleBuyNowWhatsApp = () => {
     if (!contactInfo) return;
+    const total = product.price * quantity;
     const message = encodeURIComponent(
       `Hi! I'm interested in purchasing:\n\n` +
         `Product: ${product.name}\n` +
-        `Price: $${product.price}\n` +
+        `Price: ${formatTaka(product.price)}\n` +
         `Quantity: ${quantity}\n` +
-        `Total: $${(product.price * quantity).toFixed(2)}\n\n` +
+        `Total: ${formatTaka(total)}\n\n` +
         `Please let me know the availability and payment options.`,
     );
     const url = `https://wa.me/${contactInfo.whatsapp}?text=${message}`;
@@ -301,18 +303,19 @@ const ProductModal = ({ product, isOpen, onClose }) => {
                 </div>
               </div>
 
+              {/* Price - Updated to Taka */}
               <div className="flex items-center gap-3 mb-4 pb-4 border-b border-slate-100">
                 <span className="text-2xl md:text-3xl font-bold text-amber-600">
-                  ${product.price}
+                  {formatTaka(product.price)}
                 </span>
                 {product.originalPrice && (
                   <span className="text-sm text-slate-400 line-through">
-                    ${product.originalPrice}
+                    {formatTaka(product.originalPrice)}
                   </span>
                 )}
                 {product.discount && (
                   <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">
-                    Save ${(product.originalPrice - product.price).toFixed(2)}
+                    Save {formatTaka(product.originalPrice - product.price)}
                   </span>
                 )}
               </div>
@@ -496,7 +499,7 @@ const ProductModal = ({ product, isOpen, onClose }) => {
                   }
                 >
                   <FaShoppingCart className="h-4 w-4" />
-                  Add to Cart - ${(product.price * quantity).toFixed(2)}
+                  Add to Cart - {formatTaka(product.price * quantity)}
                 </button>
               </div>
 

@@ -119,8 +119,8 @@ export const mockData = {
           id: 1,
           name: "Organic Honey - Pure & Natural",
           category: "Honey",
-          price: 12.99,
-          originalPrice: 15.99,
+          price: 1559, // 12.99 * 120
+          originalPrice: 1919, // 15.99 * 120
           discount: 15,
           rating: 4.8,
           reviews: 124,
@@ -147,7 +147,7 @@ export const mockData = {
           id: 2,
           name: "Premium Ghee - Clarified Butter",
           category: "Dairy",
-          price: 8.99,
+          price: 1079, // 8.99 * 120
           originalPrice: null,
           rating: 4.9,
           reviews: 89,
@@ -156,7 +156,7 @@ export const mockData = {
           badge: "BEST",
           images: [
             "https://placehold.co/600x600/2E7D32/FFFFFF?text=Ghee+1",
-            "https://placehold.co/600x60/1B5E20/FFFFFF?text=Ghee+2",
+            "https://placehold.co/600x600/1B5E20/FFFFFF?text=Ghee+2",
           ],
           description: `<h3>Premium Quality Ghee</h3>
             <p>Made from 100% pure cow's milk butter using traditional methods. Our ghee is rich in healthy fats and has a delightful nutty flavor.</p>
@@ -172,8 +172,8 @@ export const mockData = {
           id: 3,
           name: "Basmati Rice - Aged 1 Year",
           category: "Foods",
-          price: 15.99,
-          originalPrice: 19.99,
+          price: 1919, // 15.99 * 120
+          originalPrice: 2399, // 19.99 * 120
           discount: 20,
           rating: 4.7,
           reviews: 56,
@@ -198,7 +198,7 @@ export const mockData = {
           id: 4,
           name: "Extra Virgin Olive Oil",
           category: "Cooking Oils",
-          price: 22.99,
+          price: 2759, // 22.99 * 120
           originalPrice: null,
           rating: 4.6,
           reviews: 78,
@@ -235,8 +235,8 @@ export const mockData = {
           id: 5,
           name: "Medjool Dates - Premium Quality",
           category: "Dates",
-          price: 18.99,
-          originalPrice: 24.99,
+          price: 2279, // 18.99 * 120
+          originalPrice: 2999, // 24.99 * 120
           discount: 25,
           rating: 4.9,
           reviews: 234,
@@ -245,7 +245,7 @@ export const mockData = {
           badge: "HOT",
           images: [
             "https://placehold.co/600x600/8D6E63/FFFFFF?text=Dates+1",
-            "https://placehold.co/600x60/6D4C41/FFFFFF?text=Dates+2",
+            "https://placehold.co/600x600/6D4C41/FFFFFF?text=Dates+2",
           ],
           description: `<h3>Premium Medjool Dates</h3>
             <p>Known as the "King of Dates," our Medjool dates are large, sweet, and incredibly delicious. Naturally grown and sun-dried.</p>
@@ -261,7 +261,7 @@ export const mockData = {
           id: 6,
           name: "Almonds - California Grown",
           category: "Nuts",
-          price: 14.99,
+          price: 1799, // 14.99 * 120
           originalPrice: null,
           rating: 4.8,
           reviews: 167,
@@ -286,8 +286,8 @@ export const mockData = {
           id: 7,
           name: "Dark Chocolate 70% Cocoa",
           category: "Chocolates",
-          price: 6.99,
-          originalPrice: 8.99,
+          price: 839, // 6.99 * 120
+          originalPrice: 1079, // 8.99 * 120
           discount: 22,
           rating: 4.7,
           reviews: 92,
@@ -312,7 +312,7 @@ export const mockData = {
           id: 8,
           name: "Coconut Oil - Cold Pressed",
           category: "Cooking Oils",
-          price: 9.99,
+          price: 1199, // 9.99 * 120
           originalPrice: null,
           rating: 4.5,
           reviews: 145,
@@ -349,8 +349,8 @@ export const mockData = {
           id: 9,
           name: "Winter Care Gift Set",
           category: "Winter Care",
-          price: 29.99,
-          originalPrice: 49.99,
+          price: 3599, // 29.99 * 120
+          originalPrice: 5999, // 49.99 * 120
           discount: 40,
           rating: 4.6,
           reviews: 67,
@@ -375,8 +375,8 @@ export const mockData = {
           id: 10,
           name: "Vitamin C Serum - 30ml",
           category: "Beauty Care",
-          price: 19.99,
-          originalPrice: 29.99,
+          price: 2399, // 19.99 * 120
+          originalPrice: 3599, // 29.99 * 120
           discount: 33,
           rating: 4.4,
           reviews: 89,
@@ -401,8 +401,8 @@ export const mockData = {
           id: 11,
           name: "Hair Growth Oil - 100ml",
           category: "Hair Care",
-          price: 24.99,
-          originalPrice: 34.99,
+          price: 2999, // 24.99 * 120
+          originalPrice: 4199, // 34.99 * 120
           discount: 28,
           rating: 4.3,
           reviews: 56,
@@ -427,8 +427,8 @@ export const mockData = {
           id: 12,
           name: "Baby Care Starter Kit",
           category: "Baby Care",
-          price: 34.99,
-          originalPrice: 49.99,
+          price: 4199, // 34.99 * 120
+          originalPrice: 5999, // 49.99 * 120
           discount: 30,
           rating: 4.8,
           reviews: 112,
@@ -465,7 +465,7 @@ export const mockData = {
           id: 13,
           name: "Arabic Coffee - Premium Blend",
           category: "Tea & Coffee",
-          price: 21.99,
+          price: 2639, // 21.99 * 120
           originalPrice: null,
           rating: 4.5,
           reviews: 34,
@@ -490,7 +490,7 @@ export const mockData = {
           id: 14,
           name: "Rose Water Toner - 200ml",
           category: "Beauty Care",
-          price: 16.99,
+          price: 2039, // 16.99 * 120
           originalPrice: null,
           rating: 4.2,
           reviews: 45,
@@ -515,7 +515,7 @@ export const mockData = {
           id: 15,
           name: "Oud Attar - 12ml",
           category: "Perfume & Attar",
-          price: 34.99,
+          price: 4199, // 34.99 * 120
           originalPrice: null,
           rating: 4.9,
           reviews: 78,
@@ -540,7 +540,7 @@ export const mockData = {
           id: 16,
           name: "Handmade Soap - Lavender",
           category: "Beauty Care",
-          price: 8.99,
+          price: 1079, // 8.99 * 120
           originalPrice: null,
           rating: 4.6,
           reviews: 23,
