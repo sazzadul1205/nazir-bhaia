@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CartProvider } from "./context/CartContext";
 
 import Home from "./pages/Home/Home";
+import Shop from "./pages/Shop/Shop";
 import Cart from "./pages/Cart/Cart";
 import Chat from "./pages/Chat/Chat";
 import PublicLayout from "./layouts/PublicLayout";
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route element={<PublicLayout />}>
             <Route path="/" element={<Home />} />
+            <Route path="/shop" element={<Shop />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/chat" element={<Chat />} />
             <Route path="*" element={<NotFound />} />

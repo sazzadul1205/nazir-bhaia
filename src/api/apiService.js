@@ -43,13 +43,16 @@ class ApiService {
 
   // Mock request handler
   handleMockRequest(endpoint, options) {
-    switch (endpoint) {
+    // Extract path without query params
+    const path = endpoint.split("?")[0];
+
+    switch (path) {
       case "/data":
         return this.getMockData();
       case "/products":
-        return this.getMockProducts(options);
+        return this.getMockProducts(endpoint, options);
       case "/product":
-        return this.getMockProduct(options);
+        return this.getMockProduct(endpoint, options);
       case "/categories":
         return this.getMockCategories();
       default:
@@ -66,20 +69,34 @@ class ApiService {
   }
 
   // GET products with optional filtering
-  getMockProducts(options) {
-    let products = [];
-    const params = new URLSearchParams(options.body || "");
+  getMockProducts(endpoint) {
+    let allProducts = [];
+
+    // Flatten all products from all sections
+    mockData.productSections.forEach((section) => {
+      if (section.products && section.products.length > 0) {
+        allProducts = [...allProducts, ...section.products];
+      }
+    });
+
+    // Parse query params from the URL
+    const queryString = endpoint.includes("?") ? endpoint.split("?")[1] : "";
+    const params = new URLSearchParams(queryString);
+
     const sectionId = params.get("sectionId");
     const category = params.get("category");
     const search = params.get("search");
     const limit = parseInt(params.get("limit")) || 100;
 
-    // Flatten all products
-    mockData.productSections.forEach((section) => {
-      if (!sectionId || section.id === sectionId) {
-        products = [...products, ...section.products];
+    let products = [...allProducts];
+
+    // Filter by section
+    if (sectionId) {
+      const section = mockData.productSections.find((s) => s.id === sectionId);
+      if (section) {
+        products = section.products;
       }
-    });
+    }
 
     // Filter by category
     if (category) {
@@ -94,7 +111,8 @@ class ApiService {
       products = products.filter(
         (p) =>
           p.name.toLowerCase().includes(searchTerm) ||
-          p.category?.toLowerCase().includes(searchTerm),
+          p.category?.toLowerCase().includes(searchTerm) ||
+          p.slug?.toLowerCase().includes(searchTerm),
       );
     }
 
@@ -109,20 +127,28 @@ class ApiService {
   }
 
   // GET single product
-  getMockProduct(options) {
-    const params = new URLSearchParams(options.body || "");
+  getMockProduct(endpoint) {
+    let allProducts = [];
+
+    // Flatten all products from all sections
+    mockData.productSections.forEach((section) => {
+      if (section.products && section.products.length > 0) {
+        allProducts = [...allProducts, ...section.products];
+      }
+    });
+
+    const queryString = endpoint.includes("?") ? endpoint.split("?")[1] : "";
+    const params = new URLSearchParams(queryString);
     const id = params.get("id");
     const slug = params.get("slug");
 
     let product = null;
 
     // Find product by id or slug
-    mockData.productSections.forEach((section) => {
-      section.products.forEach((p) => {
-        if ((id && p.id === parseInt(id)) || (slug && p.slug === slug)) {
-          product = p;
-        }
-      });
+    allProducts.forEach((p) => {
+      if ((id && p.id === parseInt(id)) || (slug && p.slug === slug)) {
+        product = p;
+      }
     });
 
     if (!product) {
@@ -152,8 +178,20 @@ class ApiService {
   }
 
   async getProducts(filters = {}) {
-    const params = new URLSearchParams(filters).toString();
-    return this.request(`/products?${params}`);
+    // Build query string from filters
+    const params = new URLSearchParams();
+    Object.keys(filters).forEach((key) => {
+      if (
+        filters[key] !== undefined &&
+        filters[key] !== null &&
+        filters[key] !== ""
+      ) {
+        params.append(key, filters[key]);
+      }
+    });
+    const queryString = params.toString();
+    const url = `/products${queryString ? `?${queryString}` : ""}`;
+    return this.request(url);
   }
 
   async getProduct(id) {
